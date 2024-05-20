@@ -1,6 +1,6 @@
 # Conceitos Fundamentais - Anotações
 
-Nesse cápitulo trago anotações sobre o meu entendimento sobre alguns temas abordados no curso, e que são fundamentais para o entendimento do framework. (Esse cápitulo é mais teórico)
+Nesse README trago anotações sobre o meu entendimento sobre alguns temas abordados no curso, e que são fundamentais para o entendimento do framework.
 
 ## Bootstrap
 
@@ -9,8 +9,8 @@ Apesar do nome, não tem nada a ver com o famoso do frontend, não envolve nada 
 Exemplo:
 
 ```typescript
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   // Cria a aplicação com o módulo principal
@@ -28,9 +28,9 @@ Recurso de anotação do TypeScript que modifica o componente, classe ou objeto 
 Exemplo:
 
 ```typescript
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [],
@@ -63,8 +63,8 @@ Parte da aplicação que lida com as requisições HTTP, ele é responsável por
 Exemplo:
 
 ```typescript
-import { Controller, Get, Post } from "@nestjs/common";
-import { AppService } from "./app.service";
+import { Controller, Get, Post } from '@nestjs/common';
+import { AppService } from './app.service';
 
 //De parâmetro podemos colocar uma string que indica o prefixo da rota
 @Controller() // -> 🤵
@@ -81,7 +81,7 @@ export class AppController {
   @Post() // -> 📄
   setHello(): string {
     // -> 🍝
-    return "POST: Hello Takas!"; // -> 👨‍🍳
+    return 'POST: Hello Takas!'; // -> 👨‍🍳
   }
 }
 ```
@@ -95,13 +95,13 @@ Se não seguir os conceitos de SOLID, o service pode se tornar um **"God Object"
 Exemplo:
 
 ```typescript
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
 //Decorator que indica que a classe é um serviço, podemos colocar no parâmetro o nome do serviço
 @Injectable()
 export class AppService {
   getHello(): string {
-    return "Hello World!";
+    return 'Hello World!';
   }
 }
 ```
