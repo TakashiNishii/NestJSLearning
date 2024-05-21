@@ -107,3 +107,53 @@ Essas funções acessam objetos `Request` e `Response` e a função `next()` que
 ### Por que usar Middleware?
 
 Com o uso dos middlewares iremos executar qualquer código, alteando os objetos de requisição e resposta, ou até mesmo interrompendo a requisição já que as funções middleware são chamados sempre antes de uma rota ser executada.
+
+Exemplo de uso:
+
+- Middleware
+
+```typescript
+import { BadRequestException, NestMiddleware } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
+
+export class UserIdCheckMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    console.log('UserIdCheckMiddleware', 'antes');
+    if (isNaN(Number(req.params.id)) || Number(req.params.id) < 0) {
+      throw new BadRequestException('ID Inválido');
+    }
+    console.log('UserIdCheckMiddleware', 'depois');
+    next();
+  }
+}
+```
+
+- Chamando um Middleware no modulo
+
+```typescript
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { UserIdCheckMiddleware } from 'src/middlewares/user-id-check.middleware';
+
+@Module({
+  imports: [PrismaModule],
+  controllers: [UserController],
+  providers: [UserService],
+  exports: [],
+})
+export class UserModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(UserIdCheckMiddleware).forRoutes({
+      path: 'users/:id',
+      method: RequestMethod.ALL,
+    });
+  }
+}
+```
