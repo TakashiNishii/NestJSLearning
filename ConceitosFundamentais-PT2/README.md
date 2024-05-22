@@ -163,3 +163,31 @@ export class UserModule implements NestModule {
 São classes com o decorator `@Injectable()` que implementam a interface `CanActivate` e que obrigam a declaração do método `canActivate()`. Eles tem a responsabilidade de determinar se uma solicitação Request deve ser manipulada por um manipulador de rota.
 
 Com os Guards podemos proteger rotas, verificar se o usuário está autenticado, se tem permissão para acessar a rota, ou até mesmo verificar se o usuário tem permissão para acessar um recurso.
+
+## Exceptions
+
+São erros que ocorrem durante a execução de um programa, e que podem ser tratados para que o programa não pare de funcionar. Elas são capturadas automaticamente por uma camada de aplicação que transforma as exceções em mensanges amigáveis para o usuário.
+
+Essas mensagens tem o padrão de serem retornadas em JSON contendo o status da requisição e a mensagem de erro.
+
+Apesar de podermos usar as exceções já existentes do Nest, podemos criar exceções personalizadas para o nosso projeto, para isso deve ser criado uma classe que estende a classe `HttpException`
+
+### Exceptions Filters
+
+Podemos criar filtros de exceções que são classes com o decorator `@Catch(T)` que implementam a interface `ExceptionFilter` e que obrigam a declaração do método `catch()` que nos dá acesso a exceção e o host que pode nos fornecer o contexto da execução com o `Request` e `Response`.
+
+Exemplo de uso:
+
+```typescript
+  async exists(id: number) {
+    if (
+      !(await this.prisma.user.count({
+        where: {
+          id,
+        },
+      }))
+    ) {
+      throw new NotFoundException(`O usuário ${id} não existe`); // Aqui é lançado a exceção
+    }
+  }
+```
