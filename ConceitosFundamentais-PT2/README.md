@@ -191,3 +191,43 @@ Exemplo de uso:
     }
   }
 ```
+
+## Param Decorators
+
+O Nest oferece um conjunto de decoradores de parâmetros úteis que podem ser usados para acessar os parâmetros da solicitação. Eles são usados para acessar os parâmetros da solicitação, como o corpo da solicitação, os cabeçalhos da solicitação, os parâmetros da solicitação, etc.
+
+### Custom Decorators
+
+Nós podemos criar os nossos decoradores, isso nos possiblita por exemplo a criação de um decorator que irá pegar o usuário autenticado e colocar no objeto de requisição, permissões que o usuário tem, quando um usuário está autenticado, etc.
+
+Exemplos de uso:
+
+Um exemplo com o do Nest:
+
+```typescript
+  @Get(':id')
+  async show(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.show(id);
+  }
+```
+
+Um exemplo de um decorator customizado:
+
+```typescript
+import { ExecutionContext, createParamDecorator } from '@nestjs/common';
+
+export const ParamId = createParamDecorator(
+  (_data: unknown, context: ExecutionContext) => {
+    return Number(context.switchToHttp().getRequest().params.id);
+  },
+);
+```
+
+E o uso dele:
+
+```typescript
+  @Get(':id')
+  async show(@ParamId() id: number) {
+    return this.userService.show(id);
+  }
+```
