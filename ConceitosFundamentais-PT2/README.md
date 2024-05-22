@@ -157,3 +157,9 @@ export class UserModule implements NestModule {
   }
 }
 ```
+
+## Guards
+
+São classes com o decorator `@Injectable()` que implementam a interface `CanActivate` e que obrigam a declaração do método `canActivate()`. Eles tem a responsabilidade de determinar se uma solicitação Request deve ser manipulada por um manipulador de rota.
+
+Com os Guards podemos proteger rotas, verificar se o usuário está autenticado, se tem permissão para acessar a rota, ou até mesmo verificar se o usuário tem permissão para acessar um recurso.
