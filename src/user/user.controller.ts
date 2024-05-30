@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
   // UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
@@ -18,22 +19,21 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/roles.enum';
 import { RoleGuard } from 'src/guards/role.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
-// import { LogInterceptor } from 'src/interceptors/log.interceptor';
+import { LogInterceptor } from 'src/interceptors/log.interceptor';
 
-// @UseInterceptors(LogInterceptor) -> Pode ser aplicado no controler
+// @UseInterceptors(LogInterceptor)-> Pode ser aplicado no controler
+@Roles(Role.Admin)
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // @UseInterceptors(LogInterceptor) -> Pode ser aplicado aqui diretamente
-  @Roles(Role.Admin)
   @Post()
   async create(@Body() data: CreateUserDTO) {
     return this.userService.create(data);
   }
 
-  @Roles(Role.Admin)
   @Get()
   async list() {
     return this.userService.list();
@@ -45,19 +45,16 @@ export class UserController {
     return this.userService.show(id);
   }
 
-  @Roles(Role.Admin)
   @Put(':id')
   async update(@Body() data: UpdatePutUserDTO, @ParamId() id: number) {
     return this.userService.update(id, data);
   }
 
-  @Roles(Role.Admin)
   @Patch(':id')
   async updatePartial(@Body() data: UpdatePatchUserDTO, @ParamId() id: number) {
     return this.userService.updatePartial(id, data);
   }
 
-  @Roles(Role.Admin)
   @Delete(':id')
   async delete(@ParamId() id: number) {
     return this.userService.delete(id);
