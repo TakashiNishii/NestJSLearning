@@ -18,6 +18,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/roles.enum';
 import { RoleGuard } from 'src/guards/role.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
+// import { SkipThrottle, Throttle } from '@nestjs/throttler';
 // import { LogInterceptor } from 'src/interceptors/log.interceptor';
 
 // @UseInterceptors(LogInterceptor)-> Pode ser aplicado no controler
@@ -28,6 +29,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // @UseInterceptors(LogInterceptor) -> Pode ser aplicado aqui diretamente
+  // @SkipThrottle() -> Serve para ignorar o throttle em um método específico
+  // @Throttle(10, 60) -> Serve para aplicar o throttle em um método específico
   @Post()
   async create(@Body() data: CreateUserDTO) {
     return this.userService.create(data);
