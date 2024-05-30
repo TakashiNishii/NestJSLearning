@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   UseGuards,
-  UseInterceptors,
   // UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
@@ -19,7 +18,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/roles.enum';
 import { RoleGuard } from 'src/guards/role.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { LogInterceptor } from 'src/interceptors/log.interceptor';
+// import { LogInterceptor } from 'src/interceptors/log.interceptor';
 
 // @UseInterceptors(LogInterceptor)-> Pode ser aplicado no controler
 @Roles(Role.Admin)
