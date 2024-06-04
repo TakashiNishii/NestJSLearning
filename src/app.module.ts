@@ -19,10 +19,16 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
     MailerModule.forRoot({
-      transport:
-        'smtps://sage18@ethereal.email:PZv8XwkDaSxRFt8KPJ@smtp.ethereal.email',
+      transport: {
+        host: 'smtp.ethereal.email',
+        port: 587,
+        auth: {
+          user: 'sage18@ethereal.email',
+          pass: 'PZv8XwkDaSxRFt8KPJ',
+        },
+      },
       defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
+        from: '"ElTakas" <sage18@ethereal.email>',
       },
       template: {
         dir: __dirname + '/templates',
